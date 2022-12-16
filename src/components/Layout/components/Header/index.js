@@ -26,6 +26,8 @@ import { useEffect, useState } from 'react';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
+import { InboxIcon, MessageIcon, UploadIcon } from '~/components/Icons';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
@@ -145,12 +147,19 @@ function Header() {
             <>
               <Tippy delay={[0, 200]} content="Upload video" placement="bottom">
                 <button className={cx('action-btn')}>
-                  <FontAwesomeIcon icon={faCloudUpload} />
+                  <UploadIcon />
                 </button>
               </Tippy>
-              <button className={cx('action-btn')}>
-                <FontAwesomeIcon icon={faMessage} />
-              </button>
+              <Tippy delay={[0, 200]} content="Messages" placement="bottom">
+                <button className={cx('action-btn')}>
+                  <MessageIcon />
+                </button>
+              </Tippy>
+              <Tippy delay={[0, 200]} content="Inbox" placement="bottom">
+                <button className={cx('action-btn')}>
+                  <InboxIcon />
+                </button>
+              </Tippy>
             </>
           ) : (
             <>
@@ -160,10 +169,11 @@ function Header() {
           )}
           <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
             {currentUser ? (
-              <img
+              <Image
                 className={cx('user-avatar')}
                 src="https://staticg.sportskeeda.com/editor/2022/08/c5992-16616271792389-1920.jpg"
                 alt="Anya"
+                fallback="https://yp.vn/wp-content/uploads/2022/04/f8-icon.7ad2b161d5e80c87e516.png"
               />
             ) : (
               <button className={cx('more-btn')}>
