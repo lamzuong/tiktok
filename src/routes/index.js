@@ -1,7 +1,7 @@
-import routersConfig from '~/config/routes';
+import config from '~/config';
 
 // Layouts
-import { HeaderOnly } from '~/components/Layout';
+import { HeaderOnly } from '~/layouts';
 
 import Home from '~/pages/Home';
 import Following from '~/pages/Following';
@@ -11,11 +11,11 @@ import Search from '~/pages/Search';
 
 // Không cần đăng nhập
 const publicRoutes = [
-  { path: routersConfig.home, component: Home },
-  { path: routersConfig.following, component: Following },
-  { path: routersConfig.profile, component: Profile },
-  { path: routersConfig.upload, component: Upload, layout: HeaderOnly },
-  { path: routersConfig.search, component: Search, layout: null },
+  { path: config.routers.home, component: Home },
+  { path: config.routers.following, component: Following },
+  { path: config.routers.profile, component: Profile },
+  { path: config.routers.upload, component: Upload, layout: HeaderOnly },
+  { path: config.routers.search, component: Search, layout: null },
 ];
 // Đăng nhập để xem được
 const privateRoutes = [];
