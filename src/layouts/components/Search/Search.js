@@ -17,17 +17,15 @@ const cx = classNames.bind(styles);
 function Search() {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
-  const [showResult, setShowResult] = useState(true);
+  const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // 1: ''
-  // 2: 'h'
-  const debounced = useDebounce(searchValue, 500);
+  const debouncedValue = useDebounce(searchValue, 500);
 
   const inputRef = useRef();
 
   useEffect(() => {
-    if (!debounced.trim()) {
+    if (!debouncedValue.trim()) {
       setSearchResult([]);
       return;
     }
@@ -35,22 +33,24 @@ function Search() {
     const fetchApi = async () => {
       setLoading(true);
 
-      const result = await searchServices.search(debounced);
+      const result = await searchServices.search(debouncedValue);
       setSearchResult(result);
 
       setLoading(false);
     };
 
     fetchApi();
-  }, [debounced]);
+  }, [debouncedValue]);
 
   const handleClear = () => {
     setSearchValue('');
     inputRef.current.focus();
   };
+
   const handleHideResult = () => {
     setShowResult(false);
   };
+
   const handleChange = (e) => {
     const searchValue = e.target.value;
     if (!searchValue.startsWith(' ')) {
@@ -68,10 +68,12 @@ function Search() {
         render={(attrs) => (
           <div className={cx('search-result')} tabIndex="-1" {...attrs}>
             <PopperWrapper>
-              <h4 className={cx('search-title')}>Accounts</h4>
-              {searchResult.map((result) => (
-                <AccountItem key={result.id} data={result} />
-              ))}
+              <div className={cx('scrollable-result')}>
+                <h4 className={cx('search-title')}>Accounts</h4>
+                {searchResult.map((result) => (
+                  <AccountItem key={result.id} data={result} />
+                ))}
+              </div>
             </PopperWrapper>
           </div>
         )}
